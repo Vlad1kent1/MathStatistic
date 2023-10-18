@@ -1,8 +1,7 @@
-import math
 import random
 import numpy as np
 from scipy import stats
-from scipy.stats import norm, chi2
+from scipy.stats import norm
 import matplotlib.pyplot as plt
 
 def random_variable(s, a):
