@@ -58,7 +58,7 @@ def sample_mean(data):
 
 def sample_variance(data):
     if len(data) < 2:
-        return None  # Handle the case of too few data points
+        return None
     
     mean = sample_mean(data)
     squared_differences = [(x - mean) ** 2 for x in data]
