@@ -9,10 +9,10 @@ def random_variable(s, a):
     result = (r - 6) * s + a
     return result
 
-def build_histogram(data,):
-    hist, bin_edges = np.histogram(data, bins=10, density=True)
-    
-    cumulative_hist = np.cumsum(hist) / 0.4
+def build_histogram(data, n):
+    hist, bin_edges = np.histogram(data, bins=10)
+    hist = hist /n
+    cumulative_hist = np.cumsum(hist) 
     
     plt.bar(bin_edges[1:], cumulative_hist, width=bin_edges[1] - bin_edges[0], edgecolor='black', alpha=0.5, color='blue')
     
@@ -23,10 +23,10 @@ def build_histogram(data,):
     plt.grid(True)
     plt.show()
 
-def build_cumulative_histogram(data):
-    hist, bin_edges = np.histogram(data, bins=10, density=True)
-    
-    cumulative_hist = np.cumsum(hist) / 0.4
+def build_cumulative_histogram(data, n):
+    hist, bin_edges = np.histogram(data, bins=10)
+    hist = hist /n
+    cumulative_hist = np.cumsum(hist)
     
     plt.bar(bin_edges[1:], cumulative_hist, width=bin_edges[1] - bin_edges[0], edgecolor='black', alpha=0.5, color='blue')
     
@@ -46,8 +46,6 @@ def build_cumulative_histogram(data):
     plt.grid(True)
     plt.show()
 
-    return p
-
 # def chi_square_test(data, expected_counts, alpha):
 #     observed_counts, bin_edges = np.histogram(data, bins=len(expected_counts))
 #     dof = len(expected_counts) - 1
@@ -61,31 +59,34 @@ def build_cumulative_histogram(data):
 
 def selective_average(data):
     average = np.mean(data)
-    print("Математичне сподівання випадкової велечини:", average)
+    print("Математичне сподівання випадкової величини:", average)
     return average
 
 def sample_variable(data, average, n):
     variance = np.sum((data - average)**2) / n
-    print("Дисперсія випадкової велечини:", variance)
+    print("Дисперсія випадкової величини:", variance)
     return variance
 
 def check_fit(data):
-    num_bins = 'auto'
+    theoretical_distribution = stats.norm
+    params = theoretical_distribution.fit(data)
 
-    observed_frequencies, bins = np.histogram(data, bins=num_bins, density=False)
+    observed_frequencies, bin_edges = np.histogram(data, bins=10)
+    expected_frequencies = []
+    for i in range(len(observed_frequencies)):
+        cdf_low = theoretical_distribution.cdf(bin_edges[i], *params)
+        cdf_high = theoretical_distribution.cdf(bin_edges[i + 1], *params)
+        expected_frequency = len(data) * (cdf_high - cdf_low)
+        expected_frequencies.append(expected_frequency)
 
-    expected_density, _ = np.histogram(data, bins=bins, density=True)
-    bin_widths = np.diff(bins)
-    expected_frequencies = expected_density * bin_widths * len(data)
+    expected_frequencies = np.array(expected_frequencies)
+    expected_frequencies = (expected_frequencies / expected_frequencies.sum()) * observed_frequencies.sum()
 
-    expected_frequencies[
-        expected_frequencies == 0] = 0.1
+    chi2_stat, p_value = stats.chisquare(f_obs=observed_frequencies, f_exp=expected_frequencies)
 
-    chi_square_stat, p_value = stats.chisquare(f_obs=observed_frequencies, f_exp=expected_frequencies)
-
-    print("Chi-square Statistic:", chi_square_stat)
-    print("P-value:", p_value)
-
+    print(f"Chi-squared statistic: {chi2_stat}")
+    print(f"P-value: {p_value}")
+    
     if p_value > 0.05:
         print('Не відхиляємо нульову гіпотезу, дані відповідають нормальному розподілу')
     else:

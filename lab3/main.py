@@ -8,9 +8,9 @@ print("X =", x)
 data = np.array([random_variable(sigma, a) for _ in range(n)])
 # print(data)
 
-build_histogram(data)
+build_histogram(data, n)
 
-theoretical_distribution = build_cumulative_histogram(data)
+build_cumulative_histogram(data, n)
 # print(theoretical_distribution)
 
 # expected_counts = np.array([len(data) / 10] * 10)
