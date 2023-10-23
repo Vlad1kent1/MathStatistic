@@ -46,17 +46,6 @@ def build_cumulative_histogram(data, n):
     plt.grid(True)
     plt.show()
 
-# def chi_square_test(data, expected_counts, alpha):
-#     observed_counts, bin_edges = np.histogram(data, bins=len(expected_counts))
-#     dof = len(expected_counts) - 1
-#     chi_square_statistic = np.sum((observed_counts - expected_counts)**2 / expected_counts)
-#     p_value = 1 - chi2.cdf(chi_square_statistic, dof)
-    
-#     if p_value < alpha:
-#         print("Гіпотезу H0 відхиляють")
-#     else:
-#         print("Гіпотезу H0 приймають")
-
 def selective_average(data):
     average = np.mean(data)
     print("Математичне сподівання випадкової величини:", average)
@@ -86,7 +75,7 @@ def check_fit(data):
 
     print(f"Chi-squared statistic: {chi2_stat}")
     print(f"P-value: {p_value}")
-    
+
     if p_value > 0.05:
         print('Не відхиляємо нульову гіпотезу, дані відповідають нормальному розподілу')
     else:
