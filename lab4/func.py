@@ -1,8 +1,6 @@
 import random
-import scipy.stats as stats
 from constants import *
-import numpy as np
-import pandas as pd
+import scipy.stats as stats
 import statsmodels.api as sm
 import matplotlib.pyplot as plt
 
