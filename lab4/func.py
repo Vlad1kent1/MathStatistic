@@ -64,3 +64,13 @@ def check_pred(model):
     x19 = 9.6 + 0.1 * N
     y_pred = model.predict([1, x19])
     print("\nПрогнозне значення для x19:", y_pred[0])
+
+def find_chtryh(a):
+    a1 = 1/len(a) * sum(a)
+    return a1
+
+def formula(xdata, ydata, xt, yt):
+    b1 = (1 / len(xdata)) * (sum([(x - xt) * (y - yt) for x, y in zip(xdata, ydata)]) / (1 / len(xdata) * sum([(x - xt) ** 2 for x in xdata])))
+    b0 = yt - b1*xt
+    print("\nОцінка b0:", b0)
+    print("Оцінка b1:", b1)
