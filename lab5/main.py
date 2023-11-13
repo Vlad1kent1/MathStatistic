@@ -18,7 +18,7 @@ U = find_param_u(y, X, B)
 depend_analysis(data)
 
 # 2. Побудувати регресійну модель
-model = build_regresive_model(x1, x2, y)
+model = build_regresive_model(x1, x2, y, B)
 
 # 3. Перевірити модель на адекватність за F-критерієм Фішера
 check_Fisher(calculate_F_value(X, y, B, U))

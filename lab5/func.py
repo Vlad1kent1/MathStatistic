@@ -34,11 +34,11 @@ def depend_analysis(data):
     print("\nКореляційна матриця:")
     print(correlation_matrix)
 
-def build_regresive_model(x1, x2, y):
+def build_regresive_model(x1, x2, y, B):
     X = sm.add_constant(pd.DataFrame({'x1': x1, 'x2': x2}))
     model = sm.OLS(y, X).fit()
     print('\n', model.summary())
-    print("\nРегресійна модель:", f"\ny = {model.params['const']} + {model.params['x1']} * x1 + {model.params['x2']} * x2")
+    print("\nРегресійна модель:", f"\ny = {B[0]} + {B[1]} * x1 + {B[2]} * x2")
     return model
 
 def calculate_F_value(X, Y, B, U):
